@@ -55,7 +55,7 @@ h2 { font-size: 18px; margin: 0 0 8px; display: flex; align-items: center; gap: 
 .example figcaption { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
 .example img { display: block; width: 160px; max-width: 100%; height: auto; margin: 0 auto; border-radius: 8px; border: 1px solid var(--line); }
 @media (max-width: 480px) {
-  .example img { width: 110px; } /* スマホでは縦長の画像が場所を取りすぎないよう小さく */
+  .example img { width: 37px; } /* スマホでは縦長の画像が場所を取りすぎないよう小さく */
 }
 .lead, .hint { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
 .step {
