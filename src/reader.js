@@ -21,7 +21,8 @@
       innerX: [324, 372],    // 系統の色を数える範囲
       innerY: [4, 46]        // アイコン上端からの範囲
     },
-    rowGap: [60, 80],        // 同じ選手の行どうしの間隔
+    playerPitch: 267.5,      // 選手どうしの間隔
+    rowPitch: 70,            // 選手の中の行どうしの間隔
     lv: { x: [754, 800], y: [2, 46], white: 170, dashMaxHeight: 9 },
     name: { x: [125, 300], y: [132, 170] },
     abilityBar: { x: [450, 690], y: [12, 44] },
@@ -41,7 +42,7 @@
 
   function isColored(c) {
     var mx = Math.max(c[0], c[1], c[2]), mn = Math.min(c[0], c[1], c[2]);
-    return mx - mn > 60 && mx > 100;
+    return mx - mn > 35 && mx > 80; // JPEGで細い枠線の色が薄くなっても拾えるよう緩め
   }
 
   function hue(c) {
@@ -79,7 +80,11 @@
     var tops = [];
     left.forEach(function (L) {
       var len = L[1] - L[0] + 1;
-      var R = right.filter(function (r) { return Math.abs(r[0] - L[0]) <= 4 * s; })[0];
+      // 右枠は、始まりが近いもののうち一番長いものを使う（JPEGでは短い切れ端が混じる）
+      var R = null;
+      right.forEach(function (r) {
+        if (Math.abs(r[0] - L[0]) <= 7 * s && (!R || r[1] - r[0] > R[1] - R[0])) R = r;
+      });
       if (len >= min && len <= max && R && (R[1] - R[0] + 1) >= min - 4 * s) tops.push(L[0]);
     });
     return tops;
@@ -180,25 +185,52 @@
     return img.height;
   }
 
+  // 行の位置から、選手の並びの基準位置（phase）と各行の「何人目(k)の何行目(j)か」を求める。
+  // 行の間隔の規則に合わない位置は null。基準は「1行目になる行が最も多い」ものを選ぶ
+  // （能力は上の行から埋まるため）。
+  function lattice(ys, s) {
+    var P = CONFIG.playerPitch * s, Q = CONFIG.rowPitch * s, tol = 8 * s;
+    var best = null;
+    ys.forEach(function (y0) {
+      for (var j0 = 0; j0 < 3; j0++) {
+        var phase = y0 - j0 * Q, rows = [], fit = 0, first = 0;
+        ys.forEach(function (y) {
+          var d = y - phase, k = Math.floor((d + tol) / P), r = d - k * P, hit = null;
+          for (var j = 0; j < 3; j++) if (Math.abs(r - j * Q) <= tol) hit = { k: k, j: j };
+          rows.push(hit);
+          if (hit) { fit++; if (hit.j === 0) first++; }
+        });
+        if (!best || fit > best.fit || (fit === best.fit && first > best.first)) best = { phase: phase, rows: rows, fit: fit, first: first };
+      }
+    });
+    return best || { phase: 0, rows: [] };
+  }
+
   function analyze(img) {
     var s = img.width / CONFIG.baseWidth;
     var icons = findIcons(img, s);
     var backTop = findBackButtonTop(img, s);
 
-    // 行を選手ごとにまとめる（同じ選手の行は約70px間隔、次の選手までは約127px）
-    var groups = [], cur = null;
-    icons.forEach(function (y) {
-      if (cur && y - cur[cur.length - 1].y <= CONFIG.rowGap[1] * s) cur.push({ y: y });
-      else { cur = [{ y: y }]; groups.push(cur); }
+    // 行を選手ごとにまとめる。選手は約267.5px間隔、選手の中の行は約70px間隔で並ぶので、
+    // 各行が「何人目の何行目か」をこの規則から求める。能力が1〜2個の選手（A級など）もいる。
+    var lat = lattice(icons, s);
+    var blocks = {};
+    icons.forEach(function (y, i) {
+      var b = lat.rows[i];
+      if (!b) return;
+      (blocks[b.k] = blocks[b.k] || { top: lat.phase + b.k * CONFIG.playerPitch * s, rows: [] }).rows.push({ y: y, j: b.j });
     });
 
     var players = [], unreadable = [];
-    groups.forEach(function (g) {
-      var top = g[0].y;
-      if (g.length !== 3) {
-        unreadable.push({ top: top, reason: '画面の端で切れている' });
+    Object.keys(blocks).map(Number).sort(function (a, b) { return a - b; }).forEach(function (k) {
+      var g = blocks[k].rows.sort(function (a, b) { return a.j - b.j; });
+      // 能力は上の行から埋まる。1行目が無い・行が飛んでいる＝画面の端で切れている
+      var ok = g.every(function (r, i) { return r.j === i; });
+      if (!ok) {
+        unreadable.push({ top: g[0].y, reason: '画面の端で切れている' });
         return;
       }
+      var top = g[0].y;
       if (top + CONFIG.name.y[1] * s > backTop) {
         unreadable.push({ top: top, reason: '「戻る」ボタンで選手名が隠れている' });
         return;
@@ -221,7 +253,8 @@
   }
 
   function samePlayer(a, b) {
-    for (var i = 0; i < 3; i++) {
+    if (a.rows.length !== b.rows.length) return false;
+    for (var i = 0; i < a.rows.length; i++) {
       if (a.rows[i].kei !== b.rows[i].kei || a.rows[i].lv !== b.rows[i].lv) return false;
     }
     return signatureDistance(a.signature, b.signature) < CONFIG.dedupThreshold;

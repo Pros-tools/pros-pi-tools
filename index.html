@@ -4,13 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>特殊能力 素材計算（スクショ読み取り）</title>
+  <title>特殊能力 素材計算機（スクショ読み取り）</title>
   <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
   <header class="site-header">
-    <h1>特殊能力 素材計算</h1>
+    <h1>特殊能力 素材計算機</h1>
     <p class="lead">「能力習得選手選択」画面のスクリーンショットから、必要な素材数を計算します。</p>
+    <figure class="example">
+      <figcaption>スクリーンショット例</figcaption>
+      <img src="img/example01.jpg" alt="「能力習得選手選択」画面のスクリーンショット例" width="600" height="1194" loading="lazy">
+    </figure>
   </header>
 
   <main>
@@ -30,7 +34,7 @@
         <h2><span class="step">2</span>特能をあげる選手を選ぶ</h2>
         <span id="selected-count" class="badge"></span>
       </div>
-      <p class="hint">読み取り結果が画像と違うときは、系統とLvを直してください。</p>
+      <p class="hint">読み取り結果が画像と違うときは、系統とLvを修正してください。</p>
       <div class="toolbar">
         <button type="button" id="select-all" class="button small">すべて選ぶ</button>
         <button type="button" id="select-none" class="button small">選択を外す</button>
@@ -44,6 +48,10 @@
     <section class="card">
       <h2><span class="step">3</span>（任意）所持素材を入力する</h2>
       <p class="hint">入力すると過不足がわかります。「試練アイテム」ボタンで開く「試練アイテム所持数」画面のスクリーンショットからも読み取れます。入力した数はこの端末に保存されます。</p>
+      <figure class="example">
+        <figcaption>スクリーンショット例</figcaption>
+        <img src="img/example02.jpg" alt="「試練アイテム所持数」画面のスクリーンショット例" width="600" height="1194" loading="lazy">
+      </figure>
       <div class="toolbar owned-tools">
         <label class="button file-button owned-file">
           所持素材の画像を選ぶ
@@ -51,7 +59,7 @@
         </label>
         <button type="button" id="reset-owned" class="button small danger">所持素材をリセット</button>
       </div>
-      <p class="notice">画像の読み取りでは、数字を読み誤ることがあります。特に「0」「6」「9」は取り違えやすいので、読み取り後は画像と見比べて確認してください。</p>
+      <p class="notice">画像の読み取りでは、数字を読み誤ることがあります。特に「0」「6」「9」は誤りやすいので、読み取り後は画像と見比べて確認してください。</p>
       <p id="owned-status" class="status" aria-live="polite"></p>
       <img id="owned-thumb" class="thumb owned-thumb" alt="読み取った試練アイテム所持数の画面" hidden>
       <div class="table-scroll">

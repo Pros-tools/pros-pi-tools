@@ -18,7 +18,9 @@
     minBrightness: 60,     // 数字の明るさの下限（これより暗ければ数字が無いとみなす）
     threshold: 0.6,        // 範囲内で一番明るい画素に対する、数字とみなす明るさの割合
     digitHeight: [24, 44], // 数字の高さ
-    minGap: 2              // 文字どうしのすき間
+    rightEdge: [378, 394], // 最後の文字の右端（右寄せ）
+    leftClear: [186, 199], // 黒い帯の内側の左端。ここに文字があればコインではない（「能力習得選手選択」などの見出し）
+    searchHeight: 0.5      // 上から探す範囲（画像の幅に対する割合）
   };
 
   function minAt(img, x, y) {
@@ -126,10 +128,10 @@
   }
 
   // ---- 画面からコインの数字を探して読む ----
-  function analyze(img) {
-    var s = img.width / CONFIG.baseWidth;
+  // 縦の位置 y0 から高さ box の範囲でコインの数字を読む。数字の列らしくなければ null
+  function readAt(img, s, y0) {
     var x0 = Math.round(CONFIG.box.x[0] * s), x1 = Math.round(CONFIG.box.x[1] * s);
-    var y0 = Math.round(CONFIG.box.y[0] * s), y1 = Math.round(CONFIG.box.y[1] * s);
+    var y1 = Math.round(y0 + (CONFIG.box.y[1] - CONFIG.box.y[0]) * s);
     if (y1 >= img.height || x1 >= img.width) return null;
     var maxB = 0, x, y;
     for (y = y0; y < y1; y++) for (x = x0; x < x1; x++) { var v = minAt(img, x, y); if (v > maxB) maxB = v; }
@@ -146,23 +148,46 @@
       else if (st >= 0) { segs.push([st, x - 1]); st = -1; }
     }
     if (!segs.length) return null;
+    // コインは右寄せ。最後の文字の右端が決まった位置に来る
+    var right = segs[segs.length - 1][1];
+    if (right < CONFIG.rightEdge[0] * s || right > CONFIG.rightEdge[1] * s) return null;
 
-    var digits = '', heights = [];
+    var digits = '', heights = [], tops = [], bottoms = [];
     for (var i = 0; i < segs.length; i++) {
       var a = segs[i][0], b = segs[i][1], top = 1e9, bottom = -1;
       for (y = y0; y < y1; y++) for (x = a; x <= b; x++) if (on(x, y)) { if (y < top) top = y; if (y > bottom) bottom = y; }
       var w = b - a + 1, h = bottom - top + 1;
       if (h < CONFIG.digitHeight[0] * s || h > CONFIG.digitHeight[1] * s) return null;
+      // 範囲の上下の端にかかっている＝数字が範囲からはみ出している
+      if (top <= y0 || bottom >= y1 - 1) return null;
       var mask = new Uint8Array(w * h);
       for (y = 0; y < h; y++) for (x = 0; x < w; x++) mask[y * w + x] = on(a + x, top + y) ? 1 : 0;
       digits += classifyMask(mask, w, h);
-      heights.push(h);
+      heights.push(h); tops.push(top); bottoms.push(bottom);
     }
-    // 高さがそろっていなければ数字の列ではない
-    var hmin = Math.min.apply(null, heights), hmax = Math.max.apply(null, heights);
-    if (hmax - hmin > 3 * s) return null;
+    // 高さと上下の位置がそろっていなければ数字の列ではない
+    var spread = function (v) { return Math.max.apply(null, v) - Math.min.apply(null, v); };
+    if (spread(heights) > 3 * s || spread(tops) > 3 * s || spread(bottoms) > 3 * s) return null;
+    // 左隣（コインのマーク側）に同じ明るさの文字があれば、コインではない（見出しの文字など）
+    var top0 = Math.min.apply(null, tops), bot0 = Math.max.apply(null, bottoms);
+    var lx0 = Math.round(CONFIG.leftClear[0] * s), lx1 = Math.round(CONFIG.leftClear[1] * s);
+    for (y = top0; y <= bot0; y++) for (x = lx0; x < lx1; x++) if (on(x, y)) return null;
     if (digits.length > 1 && digits[0] === '0') return null;
-    return { value: parseInt(digits, 10), digits: digits };
+    return { value: parseInt(digits, 10), digits: digits, top: top0 };
+  }
+
+  // 画面の上の方を縦にずらしながら探す（スクリーンショットの上が切り取られていても読めるように）。
+  // まず通常の位置を試す
+  function analyze(img) {
+    var s = img.width / CONFIG.baseWidth;
+    var r = readAt(img, s, Math.round(CONFIG.box.y[0] * s));
+    if (r) return r;
+    var limit = Math.min(img.height, img.width * CONFIG.searchHeight);
+    for (var y = 0; y < limit; y += Math.max(1, Math.round(2 * s))) {
+      r = readAt(img, s, y);
+      if (r) return r;
+    }
+    return null;
   }
 
   global.ProspiCoin = { CONFIG: CONFIG, analyze: analyze, classifyMask: classifyMask };

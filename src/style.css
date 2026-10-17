@@ -49,8 +49,11 @@ body {
   padding: 0 16px;
 }
 .site-header { padding-top: calc(16px + env(safe-area-inset-top)); }
-h1 { font-size: 22px; margin: 8px 0 4px; }
+h1 { font-size: 26px; margin: 8px 0 4px; }
 h2 { font-size: 18px; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+.example { margin: 0 0 12px; text-align: center; }
+.example figcaption { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.example img { display: block; width: 100%; max-width: 200px; height: auto; margin: 0 auto; border-radius: 8px; border: 1px solid var(--line); }
 .lead, .hint { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
 .step {
   display: inline-grid; place-items: center;

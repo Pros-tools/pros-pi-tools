@@ -105,10 +105,8 @@
       if (added || dup || unreadable) msg += added + '人を読み取りました。';
       if (dup) msg += '重複した' + dup + '人は除きました。';
       if (unreadable) msg += '画面の端で切れている・名前が隠れているなどで読み取れなかった選手が' + unreadable + '人います（別の画像に全体が写っていれば読み取れます）。';
-      if (materials) msg += '所持素材を読み取りました（3の欄で確認してください）。';
-      if (coin !== null) msg += '所持コイン ' + coin.toLocaleString('ja-JP') + ' を読み取りました。';
       if (failed) msg += failed + '枚の画像を開けませんでした。';
-      if (!msg) msg = '選手も所持素材も見つかりませんでした。「能力習得選手選択」画面か「試練アイテム所持数」画面のスクリーンショットか確認してください。';
+      if (!msg && !materials && coin === null) msg = '選手も所持素材も見つかりませんでした。「能力習得選手選択」画面か「試練アイテム所持数」画面のスクリーンショットか確認してください。';
       status.textContent = msg;
       if (materials || coin !== null) renderOwned();
       render();
