@@ -156,3 +156,5 @@ select.kei { font-weight: 600; }
 
 .site-footer { color: var(--muted); font-size: 12px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
 .site-footer p { margin: 4px 0; }
+.site-footer .contact { font-size: 14px; color: var(--text); margin-bottom: 8px; }
+.site-footer a { color: var(--accent); }
