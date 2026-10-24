@@ -10,7 +10,8 @@
 <body>
   <header class="site-header">
     <h1>特殊能力 素材計算機</h1>
-    <p class="lead">「能力習得選手選択」画面のスクリーンショットから、必要な素材数を計算します。</p>
+    <p class="lead">ゲームアプリ内の「能力習得選手選択」画面のスクリーンショットから、必要な素材数を計算します。</p>
+    <p class="guide-link"><a href="guide.html">本ツールの使用方法</a></p>
     <figure class="example">
       <figcaption>スクリーンショット例</figcaption>
       <img src="img/example01.jpg" alt="「能力習得選手選択」画面のスクリーンショット例" width="600" height="1194" loading="lazy">
@@ -47,7 +48,7 @@
 
     <section class="card">
       <h2><span class="step">3</span>（任意）所持素材を入力する</h2>
-      <p class="hint">入力すると過不足がわかります。「試練アイテム」ボタンで開く「試練アイテム所持数」画面のスクリーンショットからも読み取れます。入力した数はこの端末に保存されます。</p>
+      <p class="hint">この項目は任意です。入力すると過不足がわかります。「試練アイテム」ボタンで開く「試練アイテム所持数」画面のスクリーンショットからも読み取れます。入力した数はこの端末に保存されます。</p>
       <figure class="example">
         <figcaption>スクリーンショット例</figcaption>
         <img src="img/example02.jpg" alt="「試練アイテム所持数」画面のスクリーンショット例" width="600" height="1194" loading="lazy">
@@ -62,16 +63,17 @@
       <p class="notice">画像の読み取りでは、数字を読み誤ることがあります。特に「0」「6」「9」は誤りやすいので、読み取り後は画像と見比べて確認してください。</p>
       <p id="owned-status" class="status" aria-live="polite"></p>
       <img id="owned-thumb" class="thumb owned-thumb" alt="読み取った試練アイテム所持数の画面" hidden>
+      <h3 class="sub-head">あなたの所持素材</h3>
       <div class="table-scroll">
         <table id="owned-table" class="material-table"></table>
       </div>
-      <label class="coin-input">所持コイン
+      <label class="coin-input">あなたの所持コイン
         <input id="owned-coin" type="number" inputmode="numeric" min="0" placeholder="0">
       </label>
     </section>
 
     <section class="card result">
-      <h2>必要な素材</h2>
+      <h2><span class="result-tag">計算結果</span>必要な素材</h2>
       <p class="coin">必要コイン <strong id="coin-total">0</strong>
         <span class="coin-detail">所持 <span id="coin-owned">0</span>　過不足 <span id="coin-balance" class="bal">0</span></span></p>
       <div class="table-scroll">
@@ -79,12 +81,26 @@
       </div>
       <p class="hint">上段が必要数、下段が過不足です。<span class="short">赤字</span>は不足している数です。</p>
     </section>
+    <section class="card devices">
+      <h2>動作確認機種</h2>
+      <p>現在動作が確認できている端末は下記の通りです。<br>
+        正常に動作しない場合は端末名をご連絡ください。<br>
+        なお、正常に動作した端末で下記リストにない場合もご連絡いただけますと幸いです。</p>
+      <ul>
+        <li>iPhone 14 Pro</li>
+        <li>iPhone 15</li>
+        <li>iPhone 15 Pro</li>
+        <li>iPhone 16</li>
+      </ul>
+      <p class="hint">連絡先：<a href="https://x.com/k_tatsu1367" target="_blank" rel="noopener noreferrer">X（@k_tatsu1367）</a></p>
+    </section>
   </main>
 
   <footer class="site-footer">
     <p class="contact">お問い合わせ：<a href="https://x.com/k_tatsu1367" target="_blank" rel="noopener noreferrer">X（@k_tatsu1367）</a></p>
     <p>このツールは非公式のファンツールです。KONAMIおよび「プロ野球スピリッツA」とは関係ありません。</p>
     <p>画像はこの端末の中だけで処理し、外部には送信しません。</p>
+    <p><a href="guide.html">使い方</a>　<a href="privacy.html">プライバシーポリシー</a></p>
   </footer>
 
   <template id="player-template">
