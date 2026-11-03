@@ -4,16 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>特殊能力 素材計算機（スクショ読み取り）</title>
+  <title>試練素材 計算機（スクショ読み取り）</title>
+  <meta name="description" content="プロスピAの「能力習得選手選択」画面のスクリーンショットを選ぶだけで、特殊能力のレベル上げに必要な証・指南・極意書・各印とコイン、所持素材との過不足を計算する無料ツールです。画像は端末の外に送りません。">
+  <link rel="canonical" href="https://www.tokunou-calc.com/">
   <link rel="stylesheet" href="src/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3020044701586859"
      crossorigin="anonymous"></script>
 </head>
 <body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-title" href="index.html"><img class="topbar-icon" src="img/icon.jpg" alt="" width="32" height="32">試練素材 計算機</a>
+      <button type="button" class="menu-button" aria-expanded="false" aria-controls="site-menu" aria-label="メニューを開く">
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+    <nav id="site-menu" class="site-menu" aria-label="メニュー" hidden>
+      <ul>
+      <li><a href="index.html" aria-current="page">計算機</a></li>
+      <li><a href="guide.html">使い方</a></li>
+      <li><a href="materials.html">素材の必要数</a></li>
+      <li><a href="mechanism.html">読み取りの仕組み</a></li>
+      <li><a href="tools.html">その他のツール</a></li>
+      <li><a href="updates.html">更新履歴</a></li>
+      <li><a href="about.html">運営者情報</a></li>
+      <li><a href="privacy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+  </header>
   <header class="site-header">
-    <h1>特殊能力 素材計算機</h1>
+    <h1>試練素材 計算機</h1>
     <p class="lead">ゲームアプリ内の「能力習得選手選択」画面のスクリーンショットから、必要な素材数を計算します。</p>
-    <p class="guide-link"><a href="guide.html">本ツールの使用方法</a></p>
+    <p class="guide-link"><a href="guide.html">本ツールの使用方法</a>　<a href="materials.html">素材の必要数の早見表</a></p>
     <figure class="example">
       <figcaption>スクリーンショット例</figcaption>
       <img src="img/example01.jpg" alt="「能力習得選手選択」画面のスクリーンショット例" width="600" height="1194" loading="lazy">
@@ -96,13 +118,28 @@
       </ul>
       <p class="hint">連絡先：<a href="https://x.com/k_tatsu1367" target="_blank" rel="noopener noreferrer">X（@k_tatsu1367）</a></p>
     </section>
+
+    <section class="card about-tool">
+      <h2>このツールについて</h2>
+      <p>「プロ野球スピリッツA」の特殊能力は、Lvを上げるたびに、系統ごとの証・指南・極意書と、共通の閃きの印・開眼の印・真価の印、コインを使います。育成したい選手が複数人いる場合、どの素材があといくつ要るのかを数えるだけで手間がかかります。</p>
+      <p>このツールは、ゲームの「能力習得選手選択」画面のスクリーンショットから、選手ごとの能力の系統（剛力・俊敏・技巧・心）と現在のLvを読み取ります。上げたい選手を選ぶだけで、目標Lvまでに必要な素材とコインを系統ごとに合計し、所持素材との過不足を表示します。選手と能力を1つずつ手で入力する必要はありません。</p>
+      <ul>
+        <li><strong>まとめて読み取りが可能</strong>：複数のスクリーンショットを一度に選べます。同じ選手が重複して写っていても、1人として数えます。</li>
+        <li><strong>手動修正が可能</strong>：画像読み取りでは正しく読み取れない場合もあります。読み取った部分の画像と結果を並べて表示するので、見比べて手動で修正することができます。画像入力ではなく手動入力での追加もできます。</li>
+        <li><strong>所持素材も画像から</strong>：「試練アイテム所持数」画面のスクリーンショットから、所持素材と所持コインを入力することもできます。現在の所持数から不足分を計算します。</li>
+        <li><strong>画像は端末の中だけで処理</strong>：入力画像を外部に送ることはありません。</li>
+      </ul>
+      <p>くわしくは<a href="guide.html">使い方</a>、必要数の一覧は<a href="materials.html">素材の必要数</a>、読み取りの方法は<a href="mechanism.html">読み取りの仕組み</a>をご覧ください。</p>
+    </section>
   </main>
 
   <footer class="site-footer">
+    <nav class="footer-nav" aria-label="サイト内のページ">
+      <a href="index.html">計算機</a><a href="guide.html">使い方</a><a href="materials.html">素材の必要数</a><a href="mechanism.html">読み取りの仕組み</a><a href="tools.html">その他のツール</a><a href="updates.html">更新履歴</a><a href="about.html">運営者情報</a><a href="privacy.html">プライバシーポリシー</a>
+    </nav>
     <p class="contact">お問い合わせ：<a href="https://x.com/k_tatsu1367" target="_blank" rel="noopener noreferrer">X（@k_tatsu1367）</a></p>
     <p>このツールは非公式のファンツールです。KONAMIおよび「プロ野球スピリッツA」とは関係ありません。</p>
     <p>画像はこの端末の中だけで処理し、外部には送信しません。</p>
-    <p><a href="guide.html">使い方</a>　<a href="privacy.html">プライバシーポリシー</a></p>
   </footer>
 
   <template id="player-template">
@@ -131,5 +168,6 @@
   <script src="src/coin.js"></script>
   <script src="src/calc.js"></script>
   <script src="src/app.js"></script>
+  <script src="src/nav.js"></script>
 </body>
 </html>

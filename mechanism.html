@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>スクリーンショット読み取りの仕組み｜試練素材 計算機</title>
+  <meta name="description" content="試練素材 計算機が、スクリーンショットから特殊能力の系統とLvをどう読み取っているかの解説です。読み取らない選手や、誤りやすい場面もまとめています。">
+  <link rel="canonical" href="https://www.tokunou-calc.com/mechanism.html">
+  <link rel="stylesheet" href="src/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3020044701586859"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-title" href="index.html"><img class="topbar-icon" src="img/icon.jpg" alt="" width="32" height="32">試練素材 計算機</a>
+      <button type="button" class="menu-button" aria-expanded="false" aria-controls="site-menu" aria-label="メニューを開く">
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+    <nav id="site-menu" class="site-menu" aria-label="メニュー" hidden>
+      <ul>
+      <li><a href="index.html">計算機</a></li>
+      <li><a href="guide.html">使い方</a></li>
+      <li><a href="materials.html">素材の必要数</a></li>
+      <li><a href="mechanism.html" aria-current="page">読み取りの仕組み</a></li>
+      <li><a href="tools.html">その他のツール</a></li>
+      <li><a href="updates.html">更新履歴</a></li>
+      <li><a href="about.html">運営者情報</a></li>
+      <li><a href="privacy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+  </header>
+  <header class="site-header">
+    <p class="back"><a href="index.html">← 試練素材 計算機に戻る</a></p>
+    <h1>読み取りの仕組み</h1>
+    <p class="lead">このツールが、スクリーンショットから何をどうやって読み取っているかを説明します。仕組みを知っておくと、読み取りやすい撮り方や、誤りが起きやすい場面がわかります。</p>
+  </header>
+
+  <main class="policy">
+    <section class="card">
+      <h2>基本の考え方</h2>
+      <p>計算に必要なのは、能力ごとの<strong>系統</strong>と<strong>現在のLv</strong>の2つだけです。この2つは画面の決まった場所に、決まった形で表示されます。そこで、文字認識（OCR）や外部のAIは使わず、色と形の特徴を照らし合わせて読み取っています。</p>
+      <ul>
+        <li>処理はすべてお使いの端末のブラウザの中で行い、画像を外部に送りません。</li>
+        <li>ゲーム内の画像（アイコンなど）はツールに含めていません。読み取りに使うのは、色の範囲や、数字の形を数値にした特徴だけです。</li>
+        <li>能力名や選手名は計算に要らないので、読み取りません。</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>選手一覧の画面の読み取り</h2>
+      <ol>
+        <li><strong>能力の行を探す</strong><br>系統アイコンには細い枠があります。画像を縦に調べてこの枠を探し、見つかった位置を能力の1行とします。スクロールの位置で行の高さが毎回変わるため、決まった座標ではなく、画像ごとに探しています。</li>
+        <li><strong>系統を見分ける</strong><br>アイコンの中の色付きの部分の色合いで判定します。赤なら剛力、緑なら技巧、青なら俊敏、ピンクなら心です。</li>
+        <li><strong>Lvを読む</strong><br>「Lv.」の右の数字を切り出し、高さが低ければ未習得（Lv.−）とします。数字のときは、形を細かいマスに区切って塗りつぶしの割合を求め、1〜5それぞれの特徴と比べて、最も近いものを選びます。</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>読み取らない選手</h2>
+      <p>誤った数で計算しないよう、次の選手は読み取らずに外します。</p>
+      <ul>
+        <li>画面の上端で見出しやボタンに重なり、能力の行が一部しか見えない選手</li>
+        <li>画面の下端で「戻る」ボタンに選手名が隠れている選手</li>
+        <li>画面の下端で切れて、能力の行がそろっていない選手</li>
+      </ul>
+      <p>別のスクリーンショットで全体が写っていれば、そちらで読み取ります。スクロールしながら撮るときは、前の1枚と少し重なるように撮ると、全員を読み取れます。</p>
+    </section>
+
+    <section class="card">
+      <h2>同じ選手の見分け方</h2>
+      <p>複数のスクリーンショットに同じ選手が写っていても、1人として数えます。ただし、同じ名前の別のカード（ランクやレベルの違う同名選手）があるため、名前だけでは判断しません。</p>
+      <p>選手名の部分と、能力名の帯の部分を小さく縮めた画像どうしを比べ、さらに系統とLvがすべて一致したときだけ、同じ選手とみなします。</p>
+    </section>
+
+    <section class="card">
+      <h2>誤りやすい場面</h2>
+      <ul>
+        <li><strong>所持素材の「0」「6」「9」</strong>：0、6、9は誤りやすい数字です。取り違えることがあります。</li>
+        <li><strong>加工した画像</strong>：拡大・縮小した画像や、強く圧縮した画像は、細い枠や数字の形が崩れて読めないことがあります。撮ったままの画像を使ってください。上の部分を切り取っただけの画像は読み取れます。</li>
+        <li><strong>iPhone以外の端末</strong>：iPhoneの画面で作っています。ほかの端末では、画面の比率が違うためにうまく読めないことがあります。</li>
+      </ul>
+      <p>読み取った結果は、切り抜いた画像と並べて表示するので、見比べて直せます。誤りに気づいたら、その画面のスクリーンショットを添えて X（<a href="https://x.com/k_tatsu1367" target="_blank" rel="noopener noreferrer">@k_tatsu1367</a>）までお知らせいただけると、検証用データに加えて改善します。</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <nav class="footer-nav" aria-label="サイト内のページ">
+      <a href="index.html">計算機</a><a href="guide.html">使い方</a><a href="materials.html">素材の必要数</a><a href="mechanism.html">読み取りの仕組み</a><a href="tools.html">その他のツール</a><a href="updates.html">更新履歴</a><a href="about.html">運営者情報</a><a href="privacy.html">プライバシーポリシー</a>
+    </nav>
+    <p>このツールは非公式のファンツールです。KONAMIおよび「プロ野球スピリッツA」とは関係ありません。</p>
+  </footer>
+  <script src="src/nav.js"></script>
+</body>
+</html>

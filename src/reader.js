@@ -212,7 +212,7 @@
     var backTop = findBackButtonTop(img, s);
 
     // 行を選手ごとにまとめる。選手は約267.5px間隔、選手の中の行は約70px間隔で並ぶので、
-    // 各行が「何人目の何行目か」をこの規則から求める。能力が1〜2個の選手（A級など）もいる。
+    // 各行が「何人目の何行目か」をこの規則から求める。能力が1〜2個の選手（Aランクは1個）もいる。
     var lat = lattice(icons, s);
     var blocks = {};
     icons.forEach(function (y, i) {
