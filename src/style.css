@@ -237,13 +237,15 @@ select.kei { font-weight: 600; }
   width: 44px; height: 44px; flex: none; border: 0; border-radius: 8px;
   background: transparent; color: inherit; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
+  padding: 0; margin: 0; -webkit-appearance: none; appearance: none; /* iPhoneのSafariの標準のボタンの見た目を消す */
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .menu-button:hover, .menu-button[aria-expanded="true"] { background: rgba(255, 255, 255, .16); }
 .menu-icon, .menu-icon::before, .menu-icon::after {
   display: block; width: 22px; height: 2px; border-radius: 1px; background: currentColor;
   transition: transform .2s, background-color .2s;
 }
-.menu-icon { position: relative; }
+.menu-icon { position: relative; flex: none; }
 .menu-icon::before, .menu-icon::after { content: ""; position: absolute; left: 0; }
 .menu-icon::before { top: -7px; }
 .menu-icon::after { top: 7px; }
